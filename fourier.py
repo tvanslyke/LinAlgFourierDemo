@@ -1,22 +1,19 @@
-from math import sin, cos, sqrt
-from numpy import array, pi, linspace
+from math import sin, cos, sqrt, pi
 from scipy.integrate import quad 
 
 
-def fourierInnerProduct(func1, func2):
+def fourierInnerProduct(func1, func2, integrator = quad):
     """ Inner product for the Fourier series.
-
         func1, func2: functions upon which the product will be computed.
     """
     # integrate the product of func1 and func2 over -pi to pi
-    start, end = quad(lambda x: func1(x) * func2(x), -pi, pi)
+    start, end = integrator(lambda x: func1(x) * func2(x), -pi, pi)
 
     # return 
     return (end - start)/pi
 
 def project(function, basis, innerProductDef):
     """ Project 'function' onto the vector space with basis 'basis'.
-
         function: function to be projected onto 'basis'.
         basis: list of functions defining the basis of the vector space.
         innerProductDef: definition of an inner product. Must accept two
@@ -49,7 +46,6 @@ def project(function, basis, innerProductDef):
 
 def fourier(function, order = 10):
     """ Returns a function representing the fourier series for the input.
-
         function:   function for which the fourier series will be calculated.
         order:      order of the fourier series to be calculated.
                     ex) order = 10 calculates terms up to cos(10t), and sin(10t)
@@ -75,29 +71,30 @@ def fourier(function, order = 10):
         
     
 if __name__ == '__main__':
-    from numpy import exp
+    from numpy import linspace
+    from math import exp
     import matplotlib.pyplot as plt
 
     # define your function here.  may be a lambda such as:
-    # ex) f(x) = x^x
-    # func = lambda x: x**x
-    #
+    func = lambda x: sqrt(abs(x)**(.5*x))
+    # Other options:
     # square pulse 
     # func = lambda x: 2 * (-.5 < x < .5)
-    func = exp
-
-    # resolution of the plot
-    res = 100
+    # exponential
+    # func = exp
 
     # get the series and coefficients
-    fs, coeffs= fourier(func, order = 10)
+    # note that fs is a *continuous function* not just an array of discrete values
+    fs, coeffs = fourier(func, order = 10)
 
+    # resolution of the plot
+    res = 300
+    
     # x values to plot 
     args = linspace(-pi, pi, res)
 
     # plot it
     fig = plt.figure(1)
     plt.plot(args, [fs(arg) for arg in args])
-    plt.plot(args, func(args))
+    plt.plot(args, [func(arg) for arg in args])
     plt.show()
-    
