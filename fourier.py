@@ -9,7 +9,6 @@ def fourierInnerProduct(func1, func2, integrator = quad):
     # integrate the product of func1 and func2 over -pi to pi
     start, end = integrator(lambda x: func1(x) * func2(x), -pi, pi)
 
-    # return 
     return (end - start)/pi
 
 def project(function, basis, innerProductDef):
