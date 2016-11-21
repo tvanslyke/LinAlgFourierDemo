@@ -24,8 +24,15 @@ def fourierInnerProduct(func1, func2, integrator = quad_integrator):
                         integrator(func: function, lower_bound: float, upper_bound: float)->float
                         
     """
+<<<<<<< HEAD
     # integrate the product of func1 and func2 over -pi to pi and return
     return integrator(lambda x: func1(x) * func2(x), -pi, pi)/pi
+=======
+    # integrate the product of func1 and func2 over -pi to pi
+    start, end = integrator(lambda x: func1(x) * func2(x), -pi, pi)
+
+    return (end - start)/pi
+>>>>>>> b85b7c6588aa66cf0b93c3d559def6921bc4a1ea
 
 def project(function, basis, innerProductDef):
     """ Project 'function' onto the vector space with basis 'basis'.
